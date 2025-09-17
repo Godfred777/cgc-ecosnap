@@ -1,5 +1,6 @@
+
 import json
-from langchain.llms import GoogleGemini
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.schema import HumanMessage
 import base64
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class WasteDetectionService:
     def __init__(self):
-        self.llm = GoogleGemini(
+        self.llm = ChatGoogleGenerativeAI(
             model="gemini-pro",
             google_api_key=os.getenv("GEMINI_API_KEY")
         )
@@ -48,7 +49,7 @@ class WasteDetectionService:
             prompt = self.prompt_template.format(input_content=input_content)
             
             # Get response from Gemini
-            response = self.llm([HumanMessage(content=prompt)])
+            response = self.llm.invoke([HumanMessage(content=prompt)])
             
             # Parse response (assuming it's in JSON format)
             # In a real implementation, you might need more sophisticated parsing

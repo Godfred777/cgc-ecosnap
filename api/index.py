@@ -3,8 +3,8 @@ import json
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from models import *
-from services import *
+from api.models import *
+from api.services import *
 import logging
 
 app = FastAPI(title='Clean Greeen Connect EcoSnap API', version='1.0.0', debug=True)
@@ -22,7 +22,7 @@ app.add_middleware(
 
 waste_detection_service = WasteDetectionService()
 
-@app.post("/waste-management", response=WasteDetectionResponse)
+@app.post("/waste-management", response_model=WasteDetectionResponse)
 async def waste_management(request: WasteManagemetRequest):
     if not request.image:
         raise HTTPException(status_code=400, detail="Image is required")
